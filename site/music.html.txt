@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>音楽ページ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload="checkLogin()">
+
+  <h2>音楽を聴く</h2>
+
+  <!-- プレイヤー本体 -->
+  <audio id="player" controls></audio>
+
+  <h3>曲を選ぶ</h3>
+
+  <!-- 曲選択ボタン（好きなだけ増やせる） -->
+  <button onclick="playMusic('テニス')">曲1</button>
+  <button onclick="playMusic('てにす')">曲2</button>
+  <button onclick="playMusic('song3.mp3')">曲3</button>
+
+  <br><br>
+  <a href="dashboard.html">メニューに戻る</a>
+
+  <script src="script.js"></script>
+
+  <script>
+    function playMusic(file) {
+      const player = document.getElementById("player");
+      player.src = file;
+      player.play();
+    }
+  </script>
+
+</body>
+</html>

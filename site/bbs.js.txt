@@ -1,0 +1,21 @@
+function loadPosts() {
+  const posts = JSON.parse(localStorage.getItem("posts") || "[]");
+  const postsDiv = document.getElementById("posts");
+  postsDiv.innerHTML = "";
+
+  posts.forEach((p) => {
+    postsDiv.innerHTML += `<p>${p}</p><hr>`;
+  });
+}
+
+function addPost() {
+  const text = document.getElementById("postText").value;
+  if (text === "") return;
+
+  const posts = JSON.parse(localStorage.getItem("posts") || "[]");
+  posts.push(text);
+  localStorage.setItem("posts", JSON.stringify(posts));
+
+  document.getElementById("postText").value = "";
+  loadPosts();
+}

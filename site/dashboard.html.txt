@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>メインメニュー</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload="checkLogin()">
+  <h2>メインメニュー</h2>
+
+  <a href="bbs.html">掲示板へ</a><br>
+  <a href="music.html">音楽ページへ</a><br><br>
+
+  <button onclick="logout()">ログアウト</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
