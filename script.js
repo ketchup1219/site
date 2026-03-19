@@ -1,23 +1,18 @@
 function login() {
   const id = document.getElementById("id").value;
-  const pw = document.getElementById("pw").value;
+  const pass = document.getElementById("pass").value;
 
-  if (id === "ayauta" && pw === "2023") {
-    localStorage.setItem("login", "true");
-    window.location.href = "dashboard.html";
+  // 管理人が決めるIDとパスワード
+  const correctId = "ayauta";
+  const correctPass = "2023";
+
+  if (id === correctId && pass === correctPass) {
+    // ログイン成功した印を保存
+    sessionStorage.setItem("loggedIn", "true");
+
+    // ログイン後に移動するページ
+    window.location.href = "home.html";
   } else {
-    alert("IDまたはパスワードが違います");
+    alert("IDかパスワードが違います");
   }
-}
-
-function checkLogin() {
-  if (localStorage.getItem("login") !== "true") {
-    alert("ログインしてください");
-    window.location.href = "index.html";
-  }
-}
-
-function logout() {
-  localStorage.removeItem("login");
-  window.location.href = "index.html";
 }
