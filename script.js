@@ -1,4 +1,4 @@
-\function login() {
+function login() {
   const id = document.getElementById("id").value;
   const pass = document.getElementById("pass").value;
 
@@ -6,8 +6,7 @@
   const correctPass = "2023";
 
   if (id === correctId && pass === correctPass) {
-    sessionStorage.setItem("loggedIn", "true");
-    window.location.href = "home.html";
+    alert("ログイン成功！");
   } else {
     alert("IDとパスワードが違うんじゃないんですかね笑");
   }
