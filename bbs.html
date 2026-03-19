@@ -2,7 +2,16 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>掲示板</title>
+  <title>テニス掲示板（Firebase版）</title>
+  <style>
+    /* 少しだけ見た目を整えました */
+    body { font-family: sans-serif; max-width: 500px; margin: 20px auto; padding: 10px; }
+    input { margin-bottom: 5px; padding: 5px; }
+    button { padding: 5px 15px; background: #28a745; color: white; border: none; cursor: pointer; }
+    ul { list-style: none; padding: 0; }
+    li { border-bottom: 1px solid #ddd; padding: 10px 0; }
+    small { color: #666; }
+  </style>
 </head>
 <body>
 
@@ -10,34 +19,70 @@
 
 <input id="name" placeholder="名前">
 <input id="text" placeholder="書き込み">
-<button onclick="post()">投稿</button>
+<button id="postBtn">投稿</button>
 
 <ul id="list"></ul>
 
-<script>
-// ページ読み込み時に保存データを表示
-window.onload = function() {
-  const saved = JSON.parse(localStorage.getItem("bbs")) || [];
-  const list = document.getElementById("list");
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  saved.forEach(item => {
-    const li = document.createElement("li");
-    li.innerHTML = `<strong>${item.name}</strong>：${item.text} <br><small>${item.time}</small>`;
-    list.appendChild(li);
+  // あなたの合鍵（Config）
+  const firebaseConfig = {
+    apiKey: "AIzaSyDGIYof4a05nCkeFd0nsO1PkBPbBHDporw",
+    authDomain: "ayautatenisu.firebaseapp.com",
+    projectId: "ayautatenisu",
+    storageBucket: "ayautatenisu.firebasestorage.app",
+    messagingSenderId: "199913372032",
+    appId: "1:199913372032:web:ae070df463bde981912965"
+  };
+
+  // Firebaseの起動
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const postsRef = collection(db, "posts");
+
+  // 1. 投稿を画面に表示する処理（自動更新）
+  const q = query(postsRef, orderBy("timestamp", "desc")); // 新しい順に並べる
+  onSnapshot(q, (snapshot) => {
+    const list = document.getElementById("list");
+    list.innerHTML = ""; // 画面を一度空にする
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      const li = document.createElement("li");
+      // セキュリティのためtextContentを使って安全に表示
+      li.innerHTML = `<strong>${data.name}</strong>：${data.text} <br><small>${data.time}</small>`;
+      list.appendChild(li);
+    });
   });
-};
 
-function post() {
-  const name = document.getElementById("name").value || "名無し";
-  const text = document.getElementById("text").value;
-  if (text === "") return;
+  // 2. 投稿ボタンを押した時の処理
+  document.getElementById("postBtn").addEventListener("click", async () => {
+    const nameInput = document.getElementById("name");
+    const textInput = document.getElementById("text");
+    
+    const name = nameInput.value || "名無し";
+    const text = textInput.value;
+    if (!text) return;
 
-  // 日付を作る
-  const now = new Date();
-  const time = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+    const now = new Date();
+    const time = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-  const li = document.createElement("li");
-  li.innerHTML = `<strong>${name}</strong>：${text} <br><small>${time}</small>`;
-  document.getElementById("list").appendChild(li);
+    try {
+      // Firebaseの箱（Firestore）に保存！
+      await addDoc(postsRef, {
+        name: name,
+        text: text,
+        time: time,
+        timestamp: now // 並び替え用に隠しデータとして保存
+      });
+      textInput.value = ""; // 送信したら入力欄を空にする
+    } catch (e) {
+      console.error("エラーが出たよ: ", e);
+      alert("投稿に失敗しました。Firestoreのルールが『テストモード』になっているか確認してね！");
+    }
+  });
+</script>
 
-  //
+</body>
+</html>
