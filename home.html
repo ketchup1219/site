@@ -1,7 +1,56 @@
-<h2>メニュー</h2>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ホーム</title>
 
-<ul>
-  <li><a href="bbs.html">掲示板へ</a></li>
-  <li><a href="music.html">音楽を聴く</a></li>
-  <li><a href="https://www.google.com" target="_blank">Googleへ</a></li>
-</ul>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-color: #f0f0f0;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 40px;
+      margin-top: 40px;
+    }
+
+    .menu {
+      margin-top: 40px;
+    }
+
+    .menu a {
+      display: block;
+      width: 250px;
+      margin: 15px auto;
+      padding: 15px;
+      background: #4a90e2;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 20px;
+      transition: 0.2s;
+    }
+
+    .menu a:hover {
+      background: #357ac8;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>テニスのホームページ</h1>
+
+  <div class="menu">
+    <a href="bbs.html">掲示板へ</a>
+    <a href="music.html">音楽を聴く</a>
+    <a href="https://www.google.com" target="_blank">Googleへ</a>
+    <a href="https://www.youtube.com" target="_blank">YouTubeへ</a>
+  </div>
+
+</body>
+</html>
