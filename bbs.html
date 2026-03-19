@@ -4,22 +4,43 @@
   <meta charset="UTF-8">
   <title>テニス掲示板（Firebase版）</title>
   <style>
-    /* 少しだけ見た目を整えました */
     body { font-family: sans-serif; max-width: 500px; margin: 20px auto; padding: 10px; }
-    input { margin-bottom: 5px; padding: 5px; }
-    button { padding: 5px 15px; background: #28a745; color: white; border: none; cursor: pointer; }
+    input { margin-bottom: 5px; padding: 5px; width: calc(100% - 12px); }
+    
+    /* 投稿ボタンのスタイル */
+    #postBtn { padding: 8px 15px; background: #28a745; color: white; border: none; cursor: pointer; border-radius: 4px; }
+    
+    /* 移動用ボタンのスタイル */
+    .nav-btn { 
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 8px 15px; 
+      background: #6c757d; 
+      color: white; 
+      text-decoration: none; 
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .nav-btn:hover { background: #5a6268; }
+
     ul { list-style: none; padding: 0; }
     li { border-bottom: 1px solid #ddd; padding: 10px 0; }
     small { color: #666; }
+    .controls { margin-top: 10px; display: flex; gap: 10px; align-items: center; }
   </style>
 </head>
 <body>
+
+<a href="https://ketchup1219.github.io/site/home.html" class="nav-btn">← ホームへ戻る</a>
 
 <h1>テニスの掲示板</h1>
 
 <input id="name" placeholder="名前">
 <input id="text" placeholder="書き込み">
-<button id="postBtn">投稿</button>
+
+<div class="controls">
+  <button id="postBtn">投稿する</button>
+</div>
 
 <ul id="list"></ul>
 
@@ -27,62 +48,10 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // あなたの合鍵（Config）
   const firebaseConfig = {
     apiKey: "AIzaSyDGIYof4a05nCkeFd0nsO1PkBPbBHDporw",
     authDomain: "ayautatenisu.firebaseapp.com",
     projectId: "ayautatenisu",
     storageBucket: "ayautatenisu.firebasestorage.app",
     messagingSenderId: "199913372032",
-    appId: "1:199913372032:web:ae070df463bde981912965"
-  };
-
-  // Firebaseの起動
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const postsRef = collection(db, "posts");
-
-  // 1. 投稿を画面に表示する処理（自動更新）
-  const q = query(postsRef, orderBy("timestamp", "desc")); // 新しい順に並べる
-  onSnapshot(q, (snapshot) => {
-    const list = document.getElementById("list");
-    list.innerHTML = ""; // 画面を一度空にする
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-      const li = document.createElement("li");
-      // セキュリティのためtextContentを使って安全に表示
-      li.innerHTML = `<strong>${data.name}</strong>：${data.text} <br><small>${data.time}</small>`;
-      list.appendChild(li);
-    });
-  });
-
-  // 2. 投稿ボタンを押した時の処理
-  document.getElementById("postBtn").addEventListener("click", async () => {
-    const nameInput = document.getElementById("name");
-    const textInput = document.getElementById("text");
-    
-    const name = nameInput.value || "名無し";
-    const text = textInput.value;
-    if (!text) return;
-
-    const now = new Date();
-    const time = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
-
-    try {
-      // Firebaseの箱（Firestore）に保存！
-      await addDoc(postsRef, {
-        name: name,
-        text: text,
-        time: time,
-        timestamp: now // 並び替え用に隠しデータとして保存
-      });
-      textInput.value = ""; // 送信したら入力欄を空にする
-    } catch (e) {
-      console.error("エラーが出たよ: ", e);
-      alert("投稿に失敗しました。Firestoreのルールが『テストモード』になっているか確認してね！");
-    }
-  });
-</script>
-
-</body>
-</html>
+    appId: "1:19991337
