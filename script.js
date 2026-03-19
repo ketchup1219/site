@@ -6,7 +6,7 @@ function login() {
   const correctPass = "2023";
 
   if (id === correctId && pass === correctPass) {
-    alert("ログイン成功！");
+    alert("ログイン成功、おかえり");
   } else {
     alert("IDとパスワードが違うんじゃないんですかね笑");
   }
