@@ -3,18 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <title>掲示板</title>
-  <link rel="stylesheet" href="style.css">
 </head>
-<body onload="checkLogin(); loadPosts();">
-  <h2>掲示板</h2>
+<body>
 
-  <textarea id="postText" placeholder="投稿内容"></textarea><br>
-  <button onclick="addPost()">投稿</button>
+<h1>斗天の掲示板</h1>
 
-  <h3>投稿一覧</h3>
-  <div id="posts"></div>
+<input id="text" placeholder="書き込み">
+<button onclick="post()">投稿</button>
 
-  <script src="script.js"></script>
-  <script src="bbs.js"></script>
+<ul id="list"></ul>
+
+<script>
+function post() {
+  const text = document.getElementById("text").value;
+  if (text === "") return;
+
+  const li = document.createElement("li");
+  li.textContent = text;
+
+  document.getElementById("list").appendChild(li);
+  document.getElementById("text").value = "";
+}
+</script>
+
 </body>
 </html>
