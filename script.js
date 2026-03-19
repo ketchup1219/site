@@ -3,10 +3,10 @@ function login() {
   const pass = document.getElementById("pass").value;
 
   // 管理人が決めるIDとパスワード
-  const correctId = "ayauta";
+  const correctid = "ayauta";
   const correctPass = "2023";
 
-  if (id === correctId && pass === correctPass) {
+  if (id === correctid && pass === correctPass) {
     // ログイン成功した印を保存
     sessionStorage.setItem("loggedIn", "true");
 
