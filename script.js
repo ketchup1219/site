@@ -13,6 +13,6 @@ function login() {
     // ログイン後に移動するページ
     window.location.href = "home.html";
   } else {
-    alert("IDかパスワードが違います");
+    alert("IDかパスワードがちがうんじゃないんですかねぇ笑");
   }
 }
