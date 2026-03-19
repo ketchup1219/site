@@ -2,7 +2,7 @@ function login() {
   const id = document.getElementById("id").value;
   const pw = document.getElementById("pw").value;
 
-  if (id === "user" && pw === "pass123") {
+  if (id === "ayauta" && pw === "2023") {
     localStorage.setItem("login", "true");
     window.location.href = "dashboard.html";
   } else {
