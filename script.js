@@ -6,7 +6,7 @@ function login() {
   const correctid = "ayauta";
   const correctPass = "2023";
 
-  if (id === correctid && pass === correctPass) {
+  if (Id === correctid && pass === correctPass) {
     // ログイン成功した印を保存
     sessionStorage.setItem("loggedIn", "true");
 
